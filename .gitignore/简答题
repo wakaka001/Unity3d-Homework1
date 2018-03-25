@@ -62,12 +62,8 @@
 						 通过标签查找单个对象：public static GameObject FindWithTag(string tag)
 						 通过标签查找多个对象：public static GameObject[] FindGameObjectsWithTag(string tag)
 	添加子对象: public static GameObect CreatePrimitive(PrimitiveTypetype)
-	遍历对象树: foreach (Transform child in transform) {
-								Debug.Log(child.gameObject.name);
-							}
-	清除所有子对象: foreach (Transform child in transform) {
-									Destroy(child.gameObject);
-								}
+	遍历对象树: foreach (Transform child in transform) {}
+	清除所有子对象: foreach (Transform child in transform) { Destroy(child.gameObject);}
 
 6.资源预设（Prefabs）与 对象克隆 (clone)
 	预设（Prefabs）有什么好处？
