@@ -1,0 +1,68 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NewBehaviourScript1 : MonoBehaviour {
+
+	private int judge = 1; //用于判断是谁的轮次
+	private int count = 0; //用于判断最后是否为平局
+	private int [,] chess = new int[3,3]; //记录井字棋每一格状态
+
+	void Start () {
+		Restart ();
+	}
+
+  //重置棋盘状态
+	void Restart () {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				chess [i, j] = 0;
+		judge = 1;
+	}
+
+  //判断游戏是否结束
+	int Whowin () {
+		//检查行
+		for(int i = 0;i < 3;i++)
+			if(chess[i,0] != 0 && chess[i,0] == chess[i,1] && chess[i,1] == chess[i,2])
+				return chess[i,0];
+
+		//检查列
+		for(int j = 0; j < 3;j++)
+			if(chess[0,j] != 0 && chess[0,j] == chess[1,j] && chess[1,j] == chess[2,j])
+				return chess[0,j];
+
+    //检查对角
+		if (chess [1,1] != 0 &&
+		   chess [0, 0] == chess [1, 1] && chess [1, 1] == chess [2, 2] ||
+		   chess [0, 2] == chess [1, 1] && chess [1, 1] == chess [2, 0])
+			return chess [1,1];
+
+		return 0;//游戏未结束
+	}
+
+	void OnGUI() {
+		if(GUI.Button(new Rect(120,350,100,50),"Restart"))
+			Restart();
+      
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (chess [i,j] == 0 && GUI.Button (new Rect (100 + i * 50, 100 + j * 50, 50, 50),"")) {
+					chess [i,j] = judge;
+					judge = -judge;
+					count++;
+				} else if (chess [i,j] == 1) {
+					GUI.Button (new Rect (100 + i * 50, 100 + j * 50, 50, 50), "O");
+				} else if (chess [i,j] == -1) {
+					GUI.Button (new Rect (100 + i * 50, 100 + j * 50, 50, 50), "X");
+				}
+			}
+		}
+		if (Whowin() == 1)
+			GUI.Label (new Rect (120, 300, 100, 50), "O win!");//判定O胜出
+		if (Whowin() == -1)
+			GUI.Label (new Rect (120, 300, 100, 50), "X win!");//判定X胜出
+		if (count == 9)
+			GUI.Label (new Rect (120, 300, 100, 50), "Deuce！");//判为平局
+	}
+}
